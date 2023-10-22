@@ -1,0 +1,6 @@
+name: lmgify-net
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Let Me Google It For You dot net
