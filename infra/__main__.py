@@ -1,10 +1,11 @@
-"""An AWS Python Pulumi program"""
-
 import pulumi
-from pulumi_aws import s3
+import pulumi_aws as aws
 
-# Create an AWS resource (S3 Bucket)
-bucket = s3.Bucket('my-bucket')
+lmgify_net_zone = aws.route53.Zone(
+    "lmgify-net-zone",
+    comment="HostedZone created by Route53 Registrar",
+    name="lmgify.net",
+    opts=pulumi.ResourceOptions(protect=True),
+)
 
-# Export the name of the bucket
-pulumi.export('bucket_name', bucket.id)
+pulumi.export('zone_id', lmgify_net_zone.id)
