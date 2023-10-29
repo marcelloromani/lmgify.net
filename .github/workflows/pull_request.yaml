@@ -27,6 +27,6 @@ jobs:
       - uses: pulumi/actions@v4
         with:
           command: preview
-          stack-name: lmgify-net
+          stack-name: lmgify-net-dev
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
