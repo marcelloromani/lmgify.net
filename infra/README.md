@@ -1,4 +1,4 @@
-# lmgify.net
+# lmgify.net infrastructure
 
 Pulumi commands reminder
 
