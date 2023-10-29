@@ -29,6 +29,5 @@ jobs:
         with:
           command: preview
           stack-name: marcelloromani/lmgify-net/dev
-          working-directory: infra
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
