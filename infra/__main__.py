@@ -9,3 +9,5 @@ lmgify_net_zone = aws.route53.Zone(
 )
 
 pulumi.export('zone_id', lmgify_net_zone.id)
+
+site_s3_bucket = aws.s3.Bucket("lmgify-net")
