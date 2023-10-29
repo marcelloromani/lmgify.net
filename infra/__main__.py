@@ -41,6 +41,7 @@ site_s3_bucket = aws.s3.Bucket(
     )
 )
 pulumi.export('site_s3_bucket', site_s3_bucket.id)
+pulumi.export('site_s3_bucket_url', site_s3_bucket.website_endpoint)
 
 # The bucket must be public
 public_access_block = aws.s3.BucketPublicAccessBlock(
