@@ -22,9 +22,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Install requirements
-        run: pip install -r infra/requirements.txt
+        working-directory: infra
+        run: pip install -r requirements.txt
 
       - uses: pulumi/actions@v4
+        working-directory: infra
         with:
           command: preview
           stack-name: marcelloromani/lmgify-net/dev
