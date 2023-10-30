@@ -70,3 +70,18 @@ index_obj = aws.s3.BucketObject(
     source=FileAsset(file_path),
     content_type=mime_type,
 )
+
+# serve the static S3 content as website
+www_site_record = aws.route53.Record(
+    "www",
+    zone_id=lmgify_net_zone.id,
+    name="lmgify.net",
+    type="A",
+    aliases=[
+        aws.route53.RecordAliasArgs(
+            name=site_s3_bucket.website_endpoint,
+            zone_id=site_s3_bucket.hosted_zone_id,
+            evaluate_target_health=False,
+        )
+    ],
+)
