@@ -35,7 +35,7 @@ pulumi.export('zone_id', lmgify_net_zone.id)
 
 # Create s3 bucket to serve static content from
 site_s3_bucket = aws.s3.Bucket(
-    "lmgify.net",
+    "www.lmgify.net",
     website=aws.s3.BucketWebsiteArgs(
         index_document="index.html",
     )
@@ -75,7 +75,7 @@ index_obj = aws.s3.BucketObject(
 www_site_record = aws.route53.Record(
     "www",
     zone_id=lmgify_net_zone.id,
-    name="lmgify.net",
+    name="www.lmgify.net",
     type="A",
     aliases=[
         aws.route53.RecordAliasArgs(
