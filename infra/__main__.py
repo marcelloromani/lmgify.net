@@ -24,11 +24,13 @@ def build_public_read_policy_for_bucket(bucket_name):
     )
 
 
+target_domain = "lmgify.net"
+
 # Website address
 lmgify_net_zone = aws.route53.Zone(
     "lmgify-net-zone",
     comment="HostedZone created by Route53 Registrar",
-    name="lmgify.net",
+    name=target_domain,
     opts=pulumi.ResourceOptions(protect=True),
 )
 pulumi.export('zone_id', lmgify_net_zone.id)
@@ -36,7 +38,7 @@ pulumi.export('zone_id', lmgify_net_zone.id)
 # Create s3 bucket to serve static content from
 site_s3_bucket = aws.s3.Bucket(
     "lmgify.net",
-    bucket="lmgify.net",
+    bucket=target_domain,
     website=aws.s3.BucketWebsiteArgs(
         index_document="index.html",
     )
@@ -76,7 +78,7 @@ index_obj = aws.s3.BucketObject(
 www_site_record = aws.route53.Record(
     "www",
     zone_id=lmgify_net_zone.id,
-    name="lmgify.net",
+    name=target_domain,
     type="A",
     aliases=[
         aws.route53.RecordAliasArgs(
