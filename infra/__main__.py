@@ -37,7 +37,7 @@ pulumi.export('zone_id', lmgify_net_zone.id)
 
 # Create s3 bucket to serve static content from
 content_bucket = aws.s3.Bucket(
-    "lmgify.net",
+    "contentBucket",
     bucket=target_domain,
     website=aws.s3.BucketWebsiteArgs(
         index_document="index.html",
