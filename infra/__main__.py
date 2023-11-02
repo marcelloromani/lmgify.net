@@ -36,27 +36,27 @@ lmgify_net_zone = aws.route53.Zone(
 pulumi.export('zone_id', lmgify_net_zone.id)
 
 # Create s3 bucket to serve static content from
-site_s3_bucket = aws.s3.Bucket(
+content_bucket = aws.s3.Bucket(
     "lmgify.net",
     bucket=target_domain,
     website=aws.s3.BucketWebsiteArgs(
         index_document="index.html",
     )
 )
-pulumi.export('site_s3_bucket', site_s3_bucket.id)
-pulumi.export('site_s3_bucket_url', site_s3_bucket.website_endpoint)
+pulumi.export('site_s3_bucket', content_bucket.id)
+pulumi.export('site_s3_bucket_url', content_bucket.website_endpoint)
 
 # The bucket must be public
 public_access_block = aws.s3.BucketPublicAccessBlock(
     'allow-public-access-to-website',
-    bucket=site_s3_bucket.id,
+    bucket=content_bucket.id,
     block_public_acls=False,
 )
 
 site_s3_bucket_policy = aws.s3.BucketPolicy(
     'allow-public-access-to-website',
-    bucket=site_s3_bucket.id,
-    policy=build_public_read_policy_for_bucket(site_s3_bucket.id),
+    bucket=content_bucket.id,
+    policy=build_public_read_policy_for_bucket(content_bucket.id),
     opts=ResourceOptions(
         depends_on=[
             public_access_block,
@@ -69,7 +69,7 @@ file_path = "assets/index.html"
 mime_type, _ = mimetypes.guess_type(file_path)
 index_obj = aws.s3.BucketObject(
     "index.html",
-    bucket=site_s3_bucket.id,
+    bucket=content_bucket.id,
     source=FileAsset(file_path),
     content_type=mime_type,
 )
@@ -82,8 +82,8 @@ www_site_record = aws.route53.Record(
     type="A",
     aliases=[
         aws.route53.RecordAliasArgs(
-            name=site_s3_bucket.website_endpoint,
-            zone_id=site_s3_bucket.hosted_zone_id,
+            name=content_bucket.website_endpoint,
+            zone_id=content_bucket.hosted_zone_id,
             evaluate_target_health=False,
         )
     ],
